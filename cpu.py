@@ -29,26 +29,26 @@ class CPU:
                 self.fl = 0b00000010
             self.pc += 3
 
-    def ldi(self, address, value):
-        self.reg[address] = value
+    def ldi(self, reg_a, value):
+        self.reg[reg_a] = value
         self.pc += 3
 
-    def prn(self, address):
-        print(self.reg[address])
+    def prn(self, reg_a):
+        print(self.reg[reg_a])
         self.pc += 2
 
-    def jmp(self, address):
-        self.pc = self.reg[address]
+    def jmp(self, reg_a):
+        self.pc = self.reg[reg_a]
 
-    def jeq(self, address):
+    def jeq(self, reg_a):
         if self.fl & 1 == 0:
-            self.pc = self.reg[address]
+            self.pc = self.reg[reg_a]
         else:
             self.pc += 2
 
-    def jne(self, address):
+    def jne(self, reg_a):
         if self.fl & 1 == 0:
-            self.pc = self.geg[address]
+            self.pc = self.geg[reg_a]
         else:
             self.pc += 2
 
@@ -85,7 +85,6 @@ class CPU:
             ir = self.ram[self.pc]
 
             if ir == CMP:
-                if ir == CMP:
                 reg_a = self.ram[self.pc + 1]
                 reg_b = self.ram[self.pc + 2]
                 self.alu("CMP", reg_a, reg_b)
