@@ -78,3 +78,34 @@ class CPU:
         except FileNotFoundError:
             print(f'{sys.argv[0]}: {sys.argv[1]} file was not found')
             sys.exit(2)  
+
+    def run(self):
+        self.load()
+        while self.running:
+            ir = self.ram[self.pc]
+
+            if ir == CMP:
+                if ir == CMP:
+                reg_a = self.ram[self.pc + 1]
+                reg_b = self.ram[self.pc + 2]
+                self.alu("CMP", reg_a, reg_b)
+            elif ir == LDI:
+                reg_num = self.ram[self.pc + 1]
+                value = self.ram[self.pc + 2]
+                self.ldi(reg_num, value)
+            elif ir == PRN:
+                reg_num = self.ram[self.pc + 1]
+                self.prn(reg_num)
+            elif ir == JMP:
+                reg_num = self.ram[self.pc + 1]
+                self.jmp(reg_num)
+            elif ir == JEQ:
+                reg_num = self.ram[self.pc + 1]
+                self.jeq(reg_num)
+            elif ir == JNE:
+                reg_num = self.ram[self.pc + 1]
+                self.jne(reg_num)
+            elif ir == HLT:
+                self.hlt()
+            else:
+                print(f"Unknown instruction {ir}")
