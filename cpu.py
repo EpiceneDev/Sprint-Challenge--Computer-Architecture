@@ -33,4 +33,11 @@ class CPU:
         self.reg[address] = value
         self.pc += 3
 
+    def prn(self, address):
+        print(self.reg[address])
+        self.pc += 2
+
+    def jmp(self, address):
+        self.pc = self.reg[address]
+
     
