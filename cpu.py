@@ -40,4 +40,16 @@ class CPU:
     def jmp(self, address):
         self.pc = self.reg[address]
 
+    def jeq(self, address):
+        if self.fl & 1 == 0:
+            self.pc = self.reg[address]
+        else:
+            self.pc += 2
+
+    def jne(self, address):
+        if self.fl & 1 == 0:
+            self.pc = self.geg[address]
+        else:
+            self.pc += 2
+
     
