@@ -29,26 +29,53 @@ class CPU:
                 self.fl = 0b00000010
             self.pc += 3
 
-    def ldi(self, reg_a, value):
-        self.reg[reg_a] = value
-        self.pc += 3
+    # def ldi(self, reg_a, value):
+    #     self.reg[reg_a] = value
+    #     self.pc += 3
 
-    def prn(self, reg_a):
-        print(self.reg[reg_a])
+    # def prn(self, reg_a):
+    #     print(self.reg[reg_a])
+    #     self.pc += 2
+
+    # def jmp(self, reg_a):
+    #     self.pc = self.reg[reg_a]
+
+    # def jeq(self, reg_a):
+    #     if self.fl & 1 == 0:
+    #         self.pc = self.reg[reg_a]
+    #     else:
+    #         self.pc += 2
+
+    # def jne(self, reg_a):
+    #     if self.fl & 1 == 0:
+    #         self.pc = self.reg[reg_a]
+    #     else:
+    #         self.pc += 2
+
+    # def hlt(self):
+    #     self.running = False
+
+
+    def ldi(self, reg_num, value):
+            self.reg[reg_num] = value
+            self.pc += 3
+
+    def prn(self, reg_num):
+        print(self.reg[reg_num])
         self.pc += 2
 
-    def jmp(self, reg_a):
-        self.pc = self.reg[reg_a]
+    def jmp(self, reg_num):
+        self.pc = self.reg[reg_num]
 
-    def jeq(self, reg_a):
-        if self.fl & 1 == 0:
-            self.pc = self.reg[reg_a]
+    def jeq(self, reg_num):
+        if self.fl & 1 == 1:
+            self.pc = self.reg[reg_num]
         else:
             self.pc += 2
 
-    def jne(self, reg_a):
+    def jne(self, reg_num):
         if self.fl & 1 == 0:
-            self.pc = self.geg[reg_a]
+            self.pc = self.reg[reg_num]
         else:
             self.pc += 2
 
@@ -65,7 +92,7 @@ class CPU:
             address = 0
             with open(sys.argv[1]) as file:
                 for line in file:
-                    split_line = line.split('#')
+                    split_line = line.split('#')[0]
                     command = split_line.strip()
 
                     if command == '':
@@ -74,6 +101,7 @@ class CPU:
                     ir = int(command, 2)
                     self.ram[address] = ir
                     address += 1
+
 
         except FileNotFoundError:
             print(f'{sys.argv[0]}: {sys.argv[1]} file was not found')
@@ -108,3 +136,9 @@ class CPU:
                 self.hlt()
             else:
                 print(f"Unknown instruction {ir}")
+
+
+if __name__ == "__main__":
+    cpu = CPU()
+    cpu.load()
+    cpu.run()
