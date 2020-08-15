@@ -52,4 +52,29 @@ class CPU:
         else:
             self.pc += 2
 
-    
+    def hlt(self):
+        self.running = False
+
+    def load(self):
+        if len(sys.argv) < 2:
+            print("did you forget the file to open?")
+            print('Use format: filename file_to_open')
+            sys.exit()
+
+        try:
+            address = 0
+            with open(sys.argv[1]) as file:
+                for line in file:
+                    split_line = line.split('#')
+                    command = split_line.strip()
+
+                    if command == '':
+                        continue
+                    # sets instruction register to binary command
+                    ir = int(command, 2)
+                    self.ram[address] = ir
+                    address += 1
+
+        except FileNotFoundError:
+            print(f'{sys.argv[0]}: {sys.argv[1]} file was not found')
+            sys.exit(2)  
